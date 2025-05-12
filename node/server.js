@@ -3,7 +3,7 @@ const { MongoClient, ObjectId } = require('mongodb');
 const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 const MONGO_URI = 'mongodb://localhost:27017';
 const DB_NAME = 'userdb';
 

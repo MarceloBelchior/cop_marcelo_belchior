@@ -27,7 +27,7 @@ main()
   .then(console.log)
   .catch(console.error)
   .finally(() => client.close());
-  
+
 
 app.use(express.json());
 
@@ -36,6 +36,7 @@ app.get('/', (req, res) => {
 });
 app.post('/api/user', (req, res) => {
   const data = req.body;
+   const mongo = await client.ad
   console.log(data);
   res.json({ message: 'Data received', data });
 });

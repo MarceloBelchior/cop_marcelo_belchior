@@ -1,70 +1,37 @@
-# Getting Started with Create React App
+# Code Challenge for Senior Software Engineer (Node.js/React)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Code Challenge
 
-## Available Scripts
+### Task: Build a Simple RESTful API with Node.js and Express
 
-In the project directory, you can run:
+You are required to create a simple RESTful API that manages a list of users. Each user should have the following properties:
 
-### `npm start`
+*   `id` (number)
+*   `name` (string)
+*   `email` (string)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Requirements:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1.  **Endpoints**:
 
-### `npm test`
+    *   `GET /users`: Retrieve a list of all users.
+    *   `POST /users`: Add a new user.
+    *   `GET /users/:id`: Retrieve a user by ID.
+    *   `PUT /users/:id`: Update a user by ID.
+    *   `DELETE /users/:id`: Delete a user by ID.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2.  **Data Storage**: Use an in-memory array to store users. You do not need to implement a database for this challenge.
 
-### `npm run build`
+3.  **Validation**: Ensure that the `name` and `email` fields are provided when creating or updating a user.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+4.  **Error Handling**: Return appropriate HTTP status codes and messages for errors (e.g., 404 for not found, 400 for bad requests).
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Constraints:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+*   You have 30 minutes to complete this challenge.
+*   You can use any Node.js version and the Express framework.
 
-### `npm run eject`
+## External Resources
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+*   [Express.js Documentation](https://expressjs.com/)
+*   [Postman](https://www.postman.com/) for testing your API endpoints

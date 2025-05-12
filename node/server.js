@@ -1,54 +1,83 @@
 const express = require('express');
+const { MongoClient, ObjectId } = require('mongodb');
+const cors = require('cors');
+
 const app = express();
-const { MongoClient } = require('mongodb');
-const url = 'mongodb://localhost:27017';
-const client = new MongoClient(url);
-
-const dbName = 'myProject';
-
-const port = 3001;
-const mongourl = "mongodb://localhost:27017";
-
-
-
-async function main() {
-  // Use connect method to connect to the server
-  await client.connect();
-  console.log('Connected successfully to server');
-  const db = client.db(dbName);
-  const collection = db.collection('documents');
-
-  // the following code examples can be pasted here...
-
-  return 'done.';
-}
-
-main()
-  .then(console.log)
-  .catch(console.error)
-  .finally(() => client.close());
-
+const PORT = process.env.PORT || 3000;
+const MONGO_URI = 'mongodb://localhost:27017';
+const DB_NAME = 'userdb';
 
 app.use(express.json());
+app.use(cors());
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
+let db, usersCollection;
+
+MongoClient.connect(MONGO_URI, { useUnifiedTopology: true })
+  .then(client => {
+    db = client.db(DB_NAME);
+    usersCollection = db.collection('users');
+    console.log('✅ Connected to MongoDB');
+    
+    // Start server only after DB is connected
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running at http://localhost:${PORT}`);
+    });
+  })
+  .catch(err => console.error('MongoDB connection failed', err));
+
+
+// GET /users - List all users
+app.get('/users', async (req, res) => {
+  const users = await usersCollection.find().toArray();
+  res.json(users);
 });
-app.post('/api/user', (req, res) => {
-  const data = req.body;
-   const mongo = await client.ad
-  console.log(data);
-  res.json({ message: 'Data received', data });
+
+// GET /users/:id - Get user by ID
+app.get('/users/:id', async (req, res) => {
+  try {
+    const user = await usersCollection.findOne({ _id: new ObjectId(req.params.id) });
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    res.json(user);
+  } catch {
+    res.status(400).json({ error: 'Invalid ID format' });
+  }
 });
 
-//CRUD - Creat, Read, Update , Delete
+// POST /users - Add a new user
+app.post('/users', async (req, res) => {
+  const { name, email } = req.body;
+  if (!name || !email) return res.status(400).json({ error: 'Name and email are required' });
 
-app.get('./api/user', async (req, res) => { });
-app.post('./app/user', async(req, res) => {}) ;
-app.put('./app/user', async(req, res) => {}) 
-app.delete('./app/user', async (req, res) => {}) 
+  const result = await usersCollection.insertOne({ name, email });
+  res.status(201).json({ _id: result.insertedId, name, email });
+});
 
+// PUT /users/:id - Update a user
+app.put('/users/:id', async (req, res) => {
+  const { name, email } = req.body;
+  if (!name || !email) return res.status(400).json({ error: 'Name and email are required' });
 
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+  try {
+    const result = await usersCollection.findOneAndUpdate(
+      { _id: new ObjectId(req.params.id) },
+      { $set: { name, email } },
+      { returnDocument: 'after' }
+    );
+
+    if (!result.value) return res.status(404).json({ error: 'User not found' });
+    res.json(result.value);
+  } catch {
+    res.status(400).json({ error: 'Invalid ID format' });
+  }
+});
+
+// DELETE /users/:id - Delete a user
+app.delete('/users/:id', async (req, res) => {
+  try {
+    const result = await usersCollection.deleteOne({ _id: new ObjectId(req.params.id) });
+    if (result.deletedCount === 0) return res.status(404).json({ error: 'User not found' });
+    res.status(204).send();
+  } catch {
+    res.status(400).json({ error: 'Invalid ID format' });
+  }
 });
